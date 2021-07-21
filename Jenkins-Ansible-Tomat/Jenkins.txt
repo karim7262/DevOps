@@ -85,4 +85,37 @@ $ ansible -i /etc/ansible/hosts web -m ping
 We have managed to successfully install and test Ansible on RHEL/CentOS 8 Linux distribution. 
 
 
+On Ansible 
+set password access ssh
+# passwd root
+0 0
+# vim /etc/ssh/sshd_config
 
+1.PermitRootLogin Yes
+2.PasswprdAuthentication Yes
+
+# systemctl restart sshd
+
+now copy ssh key to tomcat
+ssh-copy-id -i root@Tomcat Private IP
+password 0 0
+
+ssh root@Tomcat
+
+
+On Jenkins 
+set password access ssh
+# passwd root
+0 0
+# vim /etc/ssh/sshd_config
+
+1.PermitRootLogin Yes
+2.PasswprdAuthentication Yes
+
+# systemctl restart sshd
+
+now copy ssh key to Ansible
+ssh-copy-id -i root@Ansible Private IP
+password 0 0
+
+ssh root@Ansible
