@@ -2,14 +2,87 @@
 #2.Ansible
 #3.Tomcat
 #4.Developer
-
+                                1.Jenkins Machine
 on Jenkins Server (Redhat)
 sudo yum update -y
 sudo yum install java* -y
 
 https://pkg.jenkins.io/redhat-stable/
-
+yum install wget -y
 sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
 sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-yum install jenkins
+yum install jenkins -y
+
+systemctl start jenkins
+systemctl enable jenkins
+systemctl status jenkins
+
+cat /var/lib/jenkins/secrets/initialAdminPassword
+ de72e92c0a6545ea983f2b0171e43090
+
+
+                              2.Ansible Machine
+                              
+Install & Configure Ansible in RHEL 8 (CentOS 8):
+=================================================
+Ansible is an open-source software provisioning, configuration management and application-deployment tool enabling infrastructure as code. It runs on many Unix-like systems, and can configure both Unix-like systems as well as Microsoft Windows.
+It includes its own declarative language to describe system configuration.
+Ansible was written by Michael DeHaan and acquired by Red Hat in 2015. Ansible is agentless, temporarily connecting remotely via SSH or Windows Remote Management (allowing remote PowerShell execution)
+to do its tasks.
+
+On RHEL 8, enable the official Red Hat repository, for the corresponding Ansible version that you want to install as shown in this article. DO NOT USE PIP ON RHEL 8!.
+
+Step 1: Installing Python3
+Usually, RHEL 8 and CentOS 8 will come with Python3 already installed by default. However, If for whatever reason Python3 is not installed, install it using the following dnf commands. Make sure you must log in as normal user with Sudo privileges.
+# visudo
+vikasnehra
+# su - vikasnehra
+$ sudo dnf update
+$ sudo dnf install python3
+
+To verify that indeed you have python3 installed, run the command.
+$ python3 -V
+
+Step 2: Installing PIP – The Python Package Installer
+Pip is a Python’s package manager, which is also comes preinstalled, but again, in case Pip is missing on your system, install it using the command.
+$ sudo dnf install python3-pip
+
+Step 3: Installing the Ansible Automation Tool
+With all the prerequisites met, install ansible by running the command on CentOS 8.
+# pip3 install ansible --user
+# yum install python3-pip
+
+On RHEL 8, enable the Ansible Engine repository to install corresponding Ansible version as shown,
+# subscription-manager repos --enable ansible-2.8-for-rhel-8-x86_64-rpms
+# dnf -y install ansible
+
+To check the version of Ansible, run.
+# ansible --version
+
+Step 4: Testing the Ansible Automation Tool
+To test ansible, first ensure that ssh is up and running.
+$ sudo systemctl status sshd
+
+Next, we need to create the hosts file in the /etc/ansible directory to define host machines.
+$ sudo mkdir /etc/ansible  
+$ sudo vim /etc/ansible/hosts
+
+The hosts the file will be the inventory where you will have all your remote nodes.
+
+Now open hosts file with your favorite editor and define the remote node as shown.
+[web]
+192.168.1.109
+
+Next, generate SSH keys from which we will copy the public key to the remote node.
+$ ssh-keygen
+
+To copy the generated SSH key to the remote node run the command.
+$ ssh-copy-id vikasnehra@192.168.1.109
+
+Now use Ansible to ping the remote node as shown.
+$ ansible -i /etc/ansible/hosts web -m ping  
+
+We have managed to successfully install and test Ansible on RHEL/CentOS 8 Linux distribution. 
+
+
 
