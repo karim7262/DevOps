@@ -1,0 +1,15 @@
+#1.Jenkins
+#2.Ansible
+#3.Tomcat
+#4.Developer
+
+on Jenkins Server (Redhat)
+sudo yum update -y
+sudo yum install java* -y
+
+https://pkg.jenkins.io/redhat-stable/
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+yum install jenkins
+
